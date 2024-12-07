@@ -17,6 +17,7 @@ const defaultControls: Controls = {
   offsetMult: 10,
   waveLength: 0.015,
   waveSpeed: 200,
+  sprite: 2,
 };
 
 export default function R3fCanvas() {

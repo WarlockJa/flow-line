@@ -35,6 +35,7 @@ export default function MeshLine({
   hueMult,
   lightnessStart,
   lightnessMult,
+  sprite,
 }: {
   index: number;
   posY: number;
@@ -47,8 +48,33 @@ export default function MeshLine({
   hueMult: number;
   lightnessStart: number;
   lightnessMult: number;
+  sprite: number;
 }) {
-  const sprite = useLoader(THREE.TextureLoader, "./stroke-00.png");
+  let texture;
+  switch (sprite) {
+    case 1:
+      texture = useLoader(THREE.TextureLoader, "./stroke-00.png");
+      break;
+    case 2:
+      texture = useLoader(THREE.TextureLoader, "./stroke-01.png");
+      break;
+    case 3:
+      texture = useLoader(THREE.TextureLoader, "./stroke-02.png");
+      break;
+    case 4:
+      texture = useLoader(THREE.TextureLoader, "./stroke-11.png");
+      break;
+    case 5:
+      texture = useLoader(THREE.TextureLoader, "./stroke-12.png");
+      break;
+    case 6:
+      texture = useLoader(THREE.TextureLoader, "./stroke-13.png");
+      break;
+
+    default:
+      texture = useLoader(THREE.TextureLoader, "./stroke-01.png");
+      break;
+  }
 
   const meshLineGeometryRef = useRef<MeshLineGeometry>(null);
 
@@ -87,11 +113,11 @@ export default function MeshLine({
       <meshLineMaterial
         lineWidth={0.5}
         color={color}
-        map={sprite}
+        map={texture}
         useMap={1}
         alphaTest={0.5}
         transparent
-        // blending={THREE.AdditiveBlending}
+        blending={THREE.AdditiveBlending}
         resolution={new THREE.Vector2(w, h)}
       />
     </mesh>

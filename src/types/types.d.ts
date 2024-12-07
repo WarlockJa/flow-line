@@ -12,4 +12,5 @@ interface Controls {
   hueMult: number;
   lightnessStart: number;
   lightnessMult: number;
+  sprite: number;
 }

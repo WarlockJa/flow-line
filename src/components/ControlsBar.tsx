@@ -214,6 +214,23 @@ export default function ControlsBar({
             }
           />
         </div>
+        <div className="flex flex-col">
+          <label htmlFor="sprite">Texture Sprite: {controls.sprite}</label>
+          <input
+            type="range"
+            min={1}
+            max={6}
+            step={1}
+            id="sprite"
+            value={controls.sprite}
+            onChange={(e) =>
+              setControls({
+                ...controls,
+                sprite: Number(e.target.value),
+              })
+            }
+          />
+        </div>
       </div>
     </div>
   );
