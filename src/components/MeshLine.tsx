@@ -27,10 +27,26 @@ export default function MeshLine({
   index,
   posY,
   posZ,
+  amplitude,
+  waveLength,
+  waveSpeed,
+  offsetMult,
+  hueStart,
+  hueMult,
+  lightnessStart,
+  lightnessMult,
 }: {
   index: number;
   posY: number;
   posZ: number;
+  amplitude: number;
+  waveLength: number;
+  waveSpeed: number;
+  offsetMult: number;
+  hueStart: number;
+  hueMult: number;
+  lightnessStart: number;
+  lightnessMult: number;
 }) {
   const sprite = useLoader(THREE.TextureLoader, "./stroke-00.png");
 
@@ -40,8 +56,8 @@ export default function MeshLine({
   const points = useRef<number[]>(initPoints(300));
 
   // colors
-  const hue = 0 - index * 0.06;
-  const lightness = 0.5 - index * 0.02;
+  const hue = hueStart - index * hueMult;
+  const lightness = lightnessStart - index * lightnessMult;
   const color = new THREE.Color().setHSL(hue, 1.0, lightness);
 
   // window resolution
@@ -49,37 +65,24 @@ export default function MeshLine({
   const h = window.innerHeight;
 
   // animation
-  const offset = index * 10;
-  const amplitude = 1;
-  const waveLength = 0.015;
-  const waveSpeed = 200;
+  const offset = index * offsetMult;
+  // const amplitude = 1;
+  // const waveLength = 0.015;
+  // const waveSpeed = 200;
   let elapsedTime = 0;
   useFrame((_, dTime) => {
     if (!meshLineGeometryRef.current) return;
-    // console.log(dTime);
     elapsedTime += dTime * waveSpeed;
 
-    // const newPoints = points.current;
-    // points.current = points.current.map((point, idx) =>
-    //   idx % 3 === 1
-    //     ? Math.sin((point - dTime + offset) * waveLength) * amplitude
-    //     : point
-    // );
     for (let p = 0, len = points.current.length; p < len; p += 3) {
-      //   if (p === 0) {
-      //       console.log(Math.sin((p - dTime + offset) * waveLength) * amplitude);
-      //   }
       points.current[p + 1] =
         Math.sin((p - elapsedTime + offset) * waveLength) * amplitude; // update y position only
     }
-    // console.log([points.current]);
     meshLineGeometryRef.current.setPoints(points.current);
   });
 
   return (
     <mesh raycast={raycast} position={new THREE.Vector3(0, posY, posZ)}>
-      {/* <meshLineGeometry points={[0, 0, 0, 0.1, 0, 0]} /> */}
-      {/* <meshLineGeometry points={points.current} ref={meshLineGeometryRef} /> */}
       <meshLineGeometry ref={meshLineGeometryRef} />
       <meshLineMaterial
         lineWidth={0.5}
